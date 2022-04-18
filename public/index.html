@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/noframework.waypoints.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Data project: Space debris</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script>
+//jQuery effect hide-show
+$(document).ready(function(){
+  $("#show1").click(function(){
+    $("#prova").hide(1000);
+  });
+  $("#show1").click(function(){
+    $("#graphic").show();
+  });
+});
+    </script>
+    <style>
+
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,600');
+      *{
+        margin:0;
+        padding:0;
+      }
+      html,
+      body{
+         height: 100%;
+         padding: 0;
+         scroll-behavior: smooth;
+         background-color: black;
+         color: white;
+         font-family: 'Open Sans', sans-serif;
+         font-weight: 300;
+      }
+      h2{
+        line-height: 1.25;
+        padding-top: 45px;
+        font-weight: 300;
+      }
+      svg{
+        padding: 20px;
+      }
+      text{
+        font-size: 10px;
+      }
+      strong{
+        font-weight: 600;
+      }
+      #graphic {
+        max-width:  1440px;
+        width: 100%;
+        position:   relative; 
+        height:  100%;
+        position:  relative; 
+        margin:auto;
+        display: none;
+      }
+      .container {
+        height: 100%;
+        max-width: 940px;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        height: 100%;
+        line-height: 1.5;
+        left: 500px;
+      }
+      .container div {
+        height: 100%;
+        display: block;
+        padding: 0 45px;
+      }
+      .fixed {
+        position: fixed;
+        max-width: 500px;
+        height: 500px;
+        top: 50px;
+      }
+      .title-container{
+    position: absolute;
+    width: 50%;
+    height: auto;
+    top: 50%;
+    left: 0%;
+    transform: translateY(-50%);
+}
+
+.title{
+    color: rgb(231, 231, 231);
+    padding: 0 2rem;
+}
+
+.title h1{
+    text-transform: uppercase;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
+.title p{
+    text-align: justify;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    color: rgb(177, 177, 177);
+    width: 85%;
+    margin: 1rem 0;
+}
+
+.scroll-down {
+  height: 50px;
+  width: 30px;
+  border: 2px solid white;
+  position: absolute;
+  left: 98%;
+  bottom: -220px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.scroll-down::before,
+.scroll-down::after {
+  content: "";
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  height: 10px;
+  width: 10px;
+  transform: translate(-50%, -100%) rotate(45deg);
+  border: 2px solid white;
+  border-top: transparent;
+  border-left: transparent;
+  animation: scroll-down 1s ease-in-out infinite;
+}
+.scroll-down::before {
+  top: 30%;
+  animation-delay: 0.3s;
+  /* animation: scroll-down 1s ease-in-out infinite; */
+}
+
+@keyframes scroll-down {
+  0% {
+    /* top:20%; */
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    top: 90%;
+    opacity: 0;
+  }
+}
+      </style>
+</head>
+
+<body>
+        <div id="prova">
+            <div class="title-container">
+                <!--Introduction-->
+                <div class="title">
+                    <h1>Data-driven project - Space Debris</h1>
+                    <p>The newest business in space is rubbish collecting, with an estimated 130 million pieces of floating space trash, and the UK wants to be part of the sector when it launches its first satellite from the UK later this year.</p>
+                    <!--scroll-down button-->
+                    <a href="#sec-2">
+                        <div class="scroll-down" id="show1"></div>
+                      </a>
+                </div>
+            </div>
+            <!--Earth's rotation-->
+           <canvas class="webgl"></canvas>    
+        </div>
+        <div id="graphic">   
+        <div class="container">
+          
+          <div id="div1">
+            <h1><strong> Space debris: a problem that concerns us closely</strong></h1>
+            <h2>Since the former Soviet Union launched the Sputnik 1, as the first satellite ever in <strong>1957</strong>, humans have sent more than <strong>12,000 satellites</strong> into Earth orbit and about <strong>8,000</strong> of them are still in space. </h2>
+            <h2>While those satellites are used for deep-space observation, weather forecast, navigation, military purposes etc., they are causing problems, have generated more than millions of uncontrolled space debris moving around the earth, endangering not just active satellites, probes, manned spacecraft, but also livings on the ground and sea. </h2>
+          </div>
+          <div id="div2">
+            <h2>Estimates suggest that total mass of all space objects in Earth orbit is more than 9900 tonne.
+              There are currently 36500 objects greater than 10 cm, 1000000 - from greater than 1 cm to 10 cm and 130 million pieces from 1 mm to 1 cm. Yet only about 30,000 objects are actively tracked by Space Surveillance Networks.Space junks move around the earth at 10 times the speed of a bullet and it could cause significant damage to a satellite or a spacecraft in case of a collision. Growing number of Space debris increases the potential danger to all space vehicles, including to the International Space Station and other spacecraft with humans aboard. If debris is in the way, the team must calculate the risk of staying on path and the probability of a collision. Sometimes it’s necessary to conduct a maneuver. 
+              </h2>
+          </div>
+          <div id="div4">
+            <h2>The International Space Station has conducted 29 debris avoidance maneuvers since 1999, including three in 2020. The rate at which debris avoidance maneuvers are necessary is rapidly increasing, making future space tourism or travel much more difficult, if not impossible. Currently collisions are rare but still occurs. For example, a Chinese satellite broke up in March 2021 after a collision, before that, another satellite was destroyed by space junk in 2009.  As more and more space junk orbits Earth, many components of our society are at risk: GPS systems, airline routing systems, military technology, business and finance, weather tracking, and phone service.</h2>
+          </div>
+          <div id="div6">
+            <h2>Things will only get worse in the next few years, as private space companies and governmental space agencies are planning to launch up to 66,000 satellites for space-based broadband services alone, more than eight times as many as those currently in orbit.  <br><br>There are concerns that eventually more and more space objects will collide creating new space junk, making Earth's orbit more crowded and difficult to navigate. <br><br>If the build-up of space debris continues, some regions of space might become unusable. And space travel might also not be possible.</h2>
+          </div>
+          <div id="div8">
+            <h2>Hugh Lewis, professor within Engineering and Physical Sciences at the University of Southampton, thinks that the problem needs to be addressed now, otherwise we will be in a big trouble.</h2><br><br>
+            <p style= color:grey>“Is the problem acute? No. Do we need to solve it now? Yes, because the problem is exponential. And exponential problems surprise you, as we can go from something that is very safe and benign, to something that is not safe quite quickly. Many people would say it's still safe enough. There's a lot of debris, but we are still able to operate satellites and spacecraft safely. But we do need to tackle it now, if we wait, the problem gets much worse and it will be much harder and expensive to solve”, - says Lewis. </p> <br>
+            <h2>The biggest question is – what might happen in the future? One of the scenarios is called Kessler syndrome, named after NASA scientist Donald Kessler who outlined the dangers back in 1978. </h2>
+          </div>
+          <div id="div10">
+            <h2>Kessler syndrome represents a catastrophic chain of events in which a satellite is shattered by a piece of space junk and the resulting debris destroys more satellites creating more junk and so on in a never-ending cascade. It’s a domino effect – one piece falls and then takes the rest with it. It's highly likely that the internet, weather, and communication services will be disrupted. <br><br> Lewis says that Kessler syndrome has already started, but we don't see it, because it's happening slowly and getting faster. John Crassidis, who works with NASA, the U.S. Air Force and other agencies to monitor space debris, consider that we will feel the full force of Kessler syndrome in the next 50 years. </h2>
+            <br><p style= color:grey> “If we don't do anything in the next 50 years, we will get a Kessler syndrome. We don't want to think 50 years ahead, as there are other problems in the world. When I give a presentation to junior and senior high students, I tell them - you will have to solve this problem. That's my prediction, I think within 50 years, we'll be in trouble”, - says Crassidis. </p>
+          </div>
+          <div id="div12">
+            <h2>Hugh Lewis has been involved in work on space debris modelling for years. He has developed the models to predict what the future might look like. It’s hard to paint the accurate picture, but modelling helps to develop different scenarios and understand what is going on and why things are happening. According to one of the scenarios, people will feel the effect of space debris problem in their everyday life. </h2>
+            <br><p style= color:grey>“Various satellites provide important services. You know, the situation in Ukraine, Starlink provides internet access. If that service disappears, then we could never resolve problems, as we've seen in Ukraine and elsewhere, we'd have to find a different solution, which might be more expensive, might take more time to put in place, and that's just one satellite system. We now rely upon satellites in a way that we've never done in the past, for example, tractors don't have drivers, they harvest crops by themselves, because they rely upon satellites to provide them with the information they need.  Everybody has a smartphone with GPS. If GPS satellite has to maneuver to avoid a collision, then we might have a degradation in the quality of the position.”, - says Lewis. </p>
+          </div>
+          <div id="div14">
+            <h1>Possible solutions</h1>
+            <h2>So, how do we solve this problem? Sometimes the solution might not be as hard as you think it is, and it’s basically what you’re going to do to clean up your backyard----stop making more rubbish and clean the rubbish that already exists.
+              Currently, the easiest and most efficient way to prevent the generating of space debris is to 
+              control decommissioned satellites to reenter the earth’s atmosphere, when they still can, and let them burn down during this process.<br><br>But this means can only apply to satellites that are still operatable and the whole process might last decades, which means the space debris problem remains mostly unsolved, and it will take years to verify its certainty.   
+      
+              More importantly, burning them into ashes means potential environmental impact. All materials used for those satellites will not be used again, like the incineration of garbage, which has already become old-fashioned.
+              </h2>
+          </div>
+          <div id="div16">
+            <h2>Companies and universities like AstroScale, Fujitsu and the University of Surry are now trying to develop a better method for space debris ---- by capturing space debris first, then they can reuse some parts of them and even turn them into fuel. <br><br>However, none of those companies has conducted any successful missions, and according to Professor John Crassidis from the University at Buffalo, USA, there’s no feasible technology right now, even though <strong>‘the recycling was probably the most promising way I would say.’</strong></h2>
+          </div>
+          <div id="div18">
+            <h2>A more realistic and sustainable way is to develop reusable satellites, with some similarities to SpaceX’s reusable rocket Falcon-9. This means those satellites can go back to the ground, and some parts of them can be used for further missions. </h2>
+          </div>
+          <div id="div20">
+            <h1>The UK Space Agency’s space sustainability efforts</h1><br>
+            <h2>The UK Space Agency announced a range of projects during the 72nd International Astronautical Congress in Dubai on 26 October 2021 to boost its space sustainability mission.
+              The first project announced was a collaboration between the UK Space Agency and the UN Office for Outer Space Affairs (UNOOSA) to support the next stage of international efforts to promote space sustainability. 
+              <br><br>According to a UK Space Agency press release, its funding will support a collaborative effort to advance global awareness on space sustainability and how best to implement the UN Guidelines for the long-term Sustainability of Outer Space Activities (LTS Guidelines).</h2>
+          </div>
+          <div id="div22">
+            <h2>The second project - awarding two space firms, Astroscale and ClearSpace funding to research a UK led mission to remove junk from space. According to an organisation’s press statement, it recently awarded funding to Astroscale and to ClearSpace to implement its first-ever space mission dedicated to removing an existing object in orbit.<br><br>Thirdly, a partnership with US-based company Numerica Corporation, which will provide space surveillance and tracking (SST) data from a worldwide network of optical telescopes and software solutions to help keep UK satellites safely operating. SST has become a key focus are for the UK Space Agency after Brexit as it has no access to European Space Agency’s Galileo global navigation satellite system.</h2>
+          </div>
+          <div id="div24">
+            <h2>In the past two years the UK Space Agency has provided £2.7 million to the UK space industry and academia to develop new technologies for Space Surveillance and Tracking (SST) and debris removal, as well as investing around £16 million on space sustainability programmes through the European Space Agency in 2019.<br><br>In January 2021, the UK Space Agency and UNOOSA signed an initial agreement to support international efforts to promote space sustainability through a series of events and engagement activities.Simonetta Di Pippo, Director of UNOOSA, said:</h2><br>
+            <p style= color:grey>“The democratisation and intensification we see in the space sector represent encouraging news for the future. The sustainability challenges this new era creates must be addressed as a priority to ensure that the space sector can thrive. We must look at every action we take in space through the lens of sustainability, for which the LTS Guidelines provide an outstanding framework[...].This project, generously funded by our UK partners, will continue to share information and examples of the practical implementation of the LTS Guidelines. By amplifying existing expertise of member States and international actors, it supports the promotion of actionable solutions.”</p>
+          </div>
+          <div id="div26">
+            <h2>In January 2021, the UK Space Agency announced that it is providing £1.7 million for new projects to support sustainable space operations. According to a press release by the organisation, the 13 new projects will help track and remove dangerous debris in space. They include an AI-based tool which can take autonomous action to avoid a collision and another which will see multiple small spacecraft fired at debris before taking it into the atmosphere to dispose of it.
+      
+              The UK Space Agency is taking some major steps towards space sustainability. However, the question remains – How pragmatic is this mission?
+              </h2><br>
+              <p style= color:grey>“Companies such as Astroscale are demonstrating some technologies now and there'll be some demonstration missions in the future, too. The technologies are relatively simple in terms of the mechanism for grappling and docking, but the complexity of the missions are really high. The safety of the missions is difficult to ensure. So, it's an involved process. And, yes, we're on the road towards the solutions. But there's still a long way to go, I think before we would see these kinds of systems being used regularly. And on a large scale, I think we're not there yet. But we need to be absolutely moving towards that, to solve the problem, says Lewis.</p>
+              <br> <h2>Space debris expert Alan Smith agrees with the argument that the UK space agency hasn't yet got the technical capability to really deliver this strategy. He says:</h2><br>
+              <p style= color:grey> “Whether they believe they can do it without that capability, whether they can believe they can do it purely from a sort of a managerial strength. It's been trying to develop it. They've started to get to create posts like a programme manager for science programmes and things like that, where they look like they're moving towards a technical capability, but they're a long way short of what they need if they're going to oversee prime contractors and major programmes.”</p>
+              <br>
+            </div>
+          <div id="div28">
+            <h2>Also, in terms of the current funding that the UK Space Agency is providing for the over £16 bn worth space sector is notional, if it aims to make noteworthy progress in space sustainability programmes. </h2>
+            <br>
+            <p style= color:grey>“All these technologies involve investment and money. And it's very, very expensive. So, a typical space mission, would cost maybe $100 to $300 million. So, if we must launch a removal mission, that say that costs several $100 million, there's no scientific benefit with just cleaning up the trash that we've left behind. And let's say we must launch, may be 10 such missions every single year, for the next 50 years. That's billions, there's trillions of dollars that we invest. And the only benefit is that we clean up the environment, we clean up after ourselves.”</p>
+            <h2>According to Crassidis, the big question is how many pieces we are really going to clean with one mission:</h2><br>
+            <p style=color:grey>“We don't want to spend multiple millions of dollars, maybe to get just a few pieces of space, it's just not cost effective right now. So, it's great to show this stuff off, but most of them are not feasible right now.”</p>
+          </div>
+          <div id="div30">
+            <h1>Conclusion</h1>
+            <h2>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</h2>
+          </div>
+        </div>
+      
+      
+        <!-- svg -->
+        <div class="fixed"><svg id="viz" width="100%" height="100%"></svg></div>
+      
+      </div><!-- /graphic -->
+        
+        
+        <script>
+      
+              //svg
+          let svg = d3.select("svg");
+      
+      
+          //svg width and height
+          svg.attr('width',500)
+              .attr('height',500)
+      
+      
+          //set up grid spacing
+          let spacing = 40;
+          let rows = 10;
+          let column = 10;
+          let randnum = (min,max) => Math.round( Math.random() * (max-min) + min );
+      
+      
+      
+          //Create an array of objects
+          let our_data = d3.range(20).map(i => //per cambiare il numero di rettangoli
+          ({ 'device': i < 5 ? 'ios' : 'android', 
+              //'city': i < 3 ? 'United Kingdom' : 'Other countries', 
+              'city': i < 1 ? 'United Kingdom' : 'Other countries', 
+              'age': randnum(25, 65)
+          }));
+      
+      
+          //create group and join our data to that group
+          let group = svg.selectAll('g')
+            .data(our_data)
+            .enter()
+            .append("g")
+      
+      
+          //create rectangles
+          let rects = group.append("rect")
+      
+         
+        
+      
+      
+          //city data
+          d3.selectAll('g')
+            .append("text")
+            .text( (d) => d["city"])
+            .attr("fill", "gray")
+            .attr("class", "city")
+            .attr("dx", -500)
+      
+      
+      
+          //age data
+          d3.selectAll('g')
+            .append("text")
+            .text( (d) => d["age"] )
+            .attr("fill", "#fff")
+            .attr("class", "age")
+            .attr("dx", -500)
+      
+      
+      
+      
+      
+      
+      
+      
+          // square grid - per la durata delle immagini di ritorno in quadrati
+          let grid = () =>{
+            rects
+              .transition()
+              .delay((d, i) => 10 * i)
+              .duration(600)
+              .ease("elastic")
+              .attr("width", 20)
+              .attr("height", 20)
+              .attr("rx", 5)
+              .attr("ry", 5)
+              .attr("x", (d, i) => i % column * spacing)
+              .attr("y", (d, i) => Math.floor(i / 10) % rows * spacing)
+              .attr("fill", (d, i) => (i < 40 ? "#394147" : "#99c125"))
+              .attr("opacity", "1")
+          }
+      
+      
+      
+          //circle grid
+          let grid2 = () =>{
+            rects
+              .transition()
+              .delay((d, i) => 10 * i)
+              .duration(600)
+              .ease("elastic")
+              .attr("width", 20)
+              .attr("height", 20)
+              .attr("rx", "50%")
+              .attr("ry", "50%")
+              .attr("x", (d, i) => i % column * spacing)
+              .attr("y", (d, i) => Math.floor(i / 10) % rows * spacing)
+              .attr("fill", (d, i) => (i < 8 ? "none" : "#99c125"))
+          }
+      
+      
+          //divide
+          let divide = () =>{
+            rects
+              .transition()
+              .delay((d, i) => 10 * i)
+              .duration(600)
+              .ease("elastic")
+              .attr("width", 10)
+              .attr("height", 10)
+              .attr("rx", 0)
+              .attr("ry", 0)
+              .attr("x", (d, i) => d['device'] == "ios" ? randnum(100, 150) :  randnum(300, 350))
+              .attr("y", (d, i) => i * 20)
+              .attr("fill", (d, i) => d['device'] == "ios" ? "#394147": "#99c125") //per i colori dei quadrati
+              .attr("opacity", (d,i)=> i < 12 ? 1 : 0 )//only show 12 people
+      
+      
+      
+              //age
+              d3.selectAll('text.age')
+                .transition()
+                .delay( (d,i) => 40*i ) 
+                .duration(900)
+                .ease('elastic')
+                .attr("dx", -500)
+      
+      
+              //city
+              d3.selectAll('text.city')
+                .transition()
+                .delay( (d,i) => 40*i ) 
+                .duration(900)
+                .ease('elastic')
+                .attr("dx", -500)
+          }
+      
+      
+      
+      
+      
+          //bar cart
+          let barChart = () => {
+            rects
+              .attr("rx", 0 )
+              .attr("ry", 0 )
+              .transition()
+              .delay( (d,i) => 20*i ) 
+              .duration(900)
+              .ease('elastic')//linear, quad, cubic, sin, exp, circle, elastic, back, bounce
+              .attr("x", (d,i) => 150 )
+              .attr("y", (d,i) => i * 17 )
+              .attr("width", (d,i) => d["age"])
+              .attr("height", (d,i) => 15)
+              .attr("fill", (d, i) => (i < 1 ? "#99c125" : "#394147")) //to modify the city in green
+              .attr("opacity", 1)
+              .attr("transform", "translate(0,0) rotate(0)")
+              .attr("opacity", (d,i)=> i < 12 ? 1 : 0 )//only show 12 people
+      
+      
+            //age text
+            d3.selectAll('text.age')
+              .transition()
+              .delay( (d,i) => 20*i ) 
+              .duration(900)
+              .ease('elastic')
+              //align text right
+              .attr("text-anchor", "start")
+              .attr("dx", 160)
+              .attr("dy", (d,i)=> (i * 17) + 12)
+              .attr("opacity", (d,i)=> i < 12 ? 1 : 0 )//nly show 12 people
+      
+      
+      
+            //city text
+            d3.selectAll('text.city')
+              .transition()
+              .delay( (d,i) => 20*i ) 
+              .duration(900)
+              .ease('elastic')
+              //align text left
+              .attr("text-anchor", "end")
+              .attr("dx", 140)
+              .attr("dy", (d,i)=> (i * 17) + 12)
+              .attr("opacity", (d,i)=> i < 12 ? 1 : 0 )//only show 12 people
+      
+      
+          }
+      
+      
+      
+      
+          //waypoints scroll constructor
+          function scroll(n, offset, func1, func2){
+            return new Waypoint({
+              element: document.getElementById(n),
+              handler: function(direction) {
+                 direction == 'down' ? func1() : func2();
+              },
+              //start 75% from the top of the div
+              offset: offset
+            });
+          };
+      
+      
+      
+          //triger these functions on page scroll
+          new scroll('div2', '75%', grid2, grid);
+          new scroll('div4', '75%', divide, grid);
+          new scroll('div6', '75%', barChart, divide);
+          new scroll('div8', '75%', divide, grid);
+          new scroll('div10', '75%', grid2, grid);
+          new scroll('div12', '75%', divide, grid)
+          new scroll('div14', '75%', grid2, grid);
+          new scroll('div16', '75%', divide, grid);
+          new scroll('div18', '75%', barChart, divide);
+          new scroll('div20', '75%', divide, grid);
+          new scroll('div22', '75%', grid2, grid);
+          new scroll('div24', '75%', divide, grid)
+          new scroll('div26', '75%', grid2, grid);
+          new scroll('div28', '75%', divide, grid);
+          new scroll('div30', '75%', grid2, grid);
+          
+      
+      
+      
+      
+          //start grid on page load
+          grid();
+       
+      
+        </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="module" src="./index.js"></script>
+</body>
+
+</html>
